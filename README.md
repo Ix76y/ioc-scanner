@@ -1,38 +1,34 @@
-# create-svelte
+# IOC-Scanner
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This app lets you can an IOCs (Indicator of Compromise) on multiple different pages at once and shows you a summary of all the results. 
 
-## Creating a project
+The goal of this project is to have a native app that allows you to quickly see important informations from different pages like VirusTotla, UrlScan, DomainTools, ... and give you an overview. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+Written in Rust for speed and qith a Svelte frontend this app runs on Linux, Windows, & MacOS. 
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Support the Project
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+If you would like to support this project but don't necessarily know how to write code, you can fuel faster code by buying a coffee. 🥰☕️
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D3GCTJP)
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+To run the project you need to have npm and cargo, then just run this command in the root folder of the project:
+
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+cargo tauri dev
 ```
 
-## Building
+The app will automatically update the UI whenever you make any changes to the code, so you won't have to rerun this command after each change.
 
-To create a production version of your app:
+## Roadmap
 
-```bash
-npm run build
-```
+The goal for this app is to have the following integrations:
 
-You can preview the production build with `npm run preview`.
+- [ ] URLScan.io
+- [ ] VirusTotal 
+- [ ] ipinfo
+- [ ] ?
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
