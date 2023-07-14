@@ -3,16 +3,14 @@
 
 	import SearchBar from '../lib/SearchBar.svelte';
     import Sidebar from '../lib/Sidebar.svelte';
+    import ScanPage from '$lib/pages/ScanPage.svelte';
+    import SettingsPage from '$lib/pages/SettingsPage.svelte';
+    import KeysPage from '$lib/pages/KeysPage.svelte';
+    import HistoryPage from '$lib/pages/HistoryPage.svelte';
 
     document.body.classList.add('bg-zinc-100');
     document.body.classList.add('dark:bg-zinc-900');
 
-    let quota = {'day': 'No Quota retreived yet.'};
-    async function getUrlScanQuota() {
-        let data = await invoke('get_urlscan_quota');
-        console.log(data);
-        quota = JSON.parse(data);
-    }
 </script>
 
 
@@ -22,15 +20,19 @@
         <div class="px-4 pt-4">
             <SearchBar/>
         </div>
-        <div class="p-4 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
-            <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg">
-                <p class="text-gray-700 dark:text-gray-300 text-base p-16">
-                Work In Progress...  💻
-                </p>
-                <button on:click="{getUrlScanQuota}">Get Quota</button>
-                <p>{quota.day}</p>
-            </div>
+        <div id="scanner-page" style="display: block;">
+            <ScanPage></ScanPage>
         </div>
+        <div id="history-page" style="display: none;">
+            <HistoryPage></HistoryPage>
+        </div>
+        <div id="keys-page" style="display: none;">
+            <KeysPage></KeysPage>
+        </div>
+        <div id="settings-page" style="display: none;">
+            <SettingsPage></SettingsPage>
+        </div>
+
     </div>
 </div>
 

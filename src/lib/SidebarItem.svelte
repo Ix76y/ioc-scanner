@@ -3,6 +3,8 @@
 
     export let name = "Scanner";
     export let svgPath = "";
+    
+    let sidebaritems = ["scanner", "history", "keys", "settings"]
     // export var active = false;
 
     // let classListHover = ["hover:bg-gradient-to-r", "hover:from-rose-600/25", "after:hover:border-r-4", "after:hover:border-rose-500"];
@@ -22,6 +24,15 @@
         } else {
             let parent = clickedElement.parentNode;
             parent.classList.add(...classListActive);
+        }
+
+        let id = name.toLowerCase() + "-page"
+        for (var i = 0; i < sidebaritems.length; i++) {
+            if (sidebaritems[i] == name.toLowerCase()) {
+                document.getElementById(id).style.display = 'block';
+            } else {
+                document.getElementById(sidebaritems[i] + "-page").style.display = 'none';
+            }
         }
     }
 </script>
