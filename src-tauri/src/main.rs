@@ -3,21 +3,16 @@
 
 mod urlscan;
 mod ipinfo;
+mod emailrep;
 
 use crate::urlscan::*;
 use crate::ipinfo::*;
-
-/* 
-#[tauri::command]
-fn greet(name: &str) -> String {
-   format!("Hello, {}!", name)
-}
-*/
+use crate::emailrep::*;
 
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![get_urlscan_quota, get_ipinfo])
+    .invoke_handler(tauri::generate_handler![get_urlscan_quota, get_ipinfo, get_emailrep])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
