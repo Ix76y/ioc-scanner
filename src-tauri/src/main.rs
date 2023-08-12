@@ -12,7 +12,7 @@ use crate::emailrep::*;
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![get_urlscan_quota, get_ipinfo, get_emailrep])
+    .invoke_handler(tauri::generate_handler![get_urlscan_quota, scan_url, get_ipinfo, get_emailrep])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
