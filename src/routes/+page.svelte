@@ -7,6 +7,7 @@
     import SettingsPage from '$lib/pages/SettingsPage.svelte';
     import KeysPage from '$lib/pages/KeysPage.svelte';
     import HistoryPage from '$lib/pages/HistoryPage.svelte';
+    import HomePage from '$lib/pages/HomePage.svelte';
 
     document.body.classList.add('bg-zinc-100');
     document.body.classList.add('dark:bg-zinc-900');
@@ -20,7 +21,10 @@
         <div class="px-4 pt-4">
             <SearchBar/>
         </div>
-        <div id="scanner-page" style="display: block;">
+        <div id="home-page" style="display: block;">
+            <HomePage/>
+        </div>
+        <div id="scanner-page" style="display: none;">
             <ScanPage></ScanPage>
         </div>
         <div id="history-page" style="display: none;">

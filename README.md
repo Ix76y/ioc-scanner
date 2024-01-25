@@ -33,4 +33,4 @@ The goal for this app is to have the following integrations:
 - [ ] IPLocation.net
 - [ ] AbuseIPDB
 - [ ] EmailRep.io
-
+- [ ] HaveIBeenPwned
