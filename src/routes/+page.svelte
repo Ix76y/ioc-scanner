@@ -1,7 +1,7 @@
 <script>
     import { invoke } from '@tauri-apps/api/tauri';
 
-	import SearchBar from '../lib/SearchBar.svelte';
+	//import SearchBar from '../lib/SearchBar.svelte';
     import Sidebar from '../lib/Sidebar.svelte';
     import ScanPage from '$lib/pages/ScanPage.svelte';
     import SettingsPage from '$lib/pages/SettingsPage.svelte';
@@ -18,9 +18,6 @@
 <div class="flex flex-row relative">
     <Sidebar />
     <div style="margin-left: 200px; width: 100%">
-        <div class="px-4 pt-4">
-            <SearchBar/>
-        </div>
         <div id="home-page" style="display: block;">
             <HomePage/>
         </div>
