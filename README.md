@@ -2,7 +2,7 @@
 
 ![IOC Scanner](resources/images/homepage.png)
 
-This app lets you can an IOCs (Indicator of Compromise) on multiple different pages at once and shows you a summary of all the results. 
+This app lets you scan an IOCs (Indicator of Compromise) on multiple different pages at once and shows you a summary of all the results. 
 
 The goal of this project is to have a native app that allows you to quickly see important informations from different pages like VirusTotla, UrlScan, DomainTools, ... and give you an overview of the results from each of the tools. 
 
