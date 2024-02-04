@@ -41,7 +41,8 @@
     }
 </script>
 
-<div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg mb-8">
+<div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg my-4">
+    <h3 class="text-xl font-extrabold my-2 mx-4 pt-3">My IP</h3>
     <div class="grid grid-cols-6 grid-rows-4 grid-flow-col gap-4 m-4">
         <div class="select-none cursor-default">IP:</div>
         <div class="select-none cursor-default">Hostname:</div>
@@ -57,6 +58,7 @@
         {:else}
             <div class="col-span-2"></div>
         {/if}
+        <button on:click="{getIpInfo}" id="get-ipinfo-btn" class="rounded border border-sky-500 hover:border-sky-600 text-sky-500 hover:text-sky-600 p-2">Get My IP</button>
       </div>
 </div>
 

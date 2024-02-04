@@ -7,7 +7,9 @@
     import ipinfoLogo from '$lib/assets/ipinfo-logo.png';
     import emailrepLogo from '$lib/assets/emailrep-logo.png';
     import abuseipdbLogo from '$lib/assets/abuseipdb-logo.png';
-    
+
+    import IpInfo from './tools/MyIpInfo.svelte';
+
     const rowHeight = 32;
     const chartSize = 250;
 
@@ -101,7 +103,7 @@
             </ul>
         </div>
     </div>
-    <br>
+    <IpInfo></IpInfo>
     <div>
         <h3 class="text-xl font-extrabold my-2">Integrations</h3>
         <p class="text-sm font-extralight">
@@ -125,6 +127,7 @@
             </div>
         {/each}
     </div>
+
    <!-- <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg">
         <p class="text-gray-700 dark:text-gray-300 text-base p-16">
         Home Page...  🏡
