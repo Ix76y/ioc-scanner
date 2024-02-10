@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
+use urlscan::api::quota::model::Category;
 
 use crate::secrets::{get_keys, get_secret};
 
@@ -53,3 +54,4 @@ pub fn get_integrations() -> [Integration; 7] {
     }
     integrations
 }
+

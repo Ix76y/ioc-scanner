@@ -42,6 +42,8 @@
      */
     async function testConnection(i) {
         console.log(`Testing connection for ${integrations[i].name}`);
+        let success = await invoke('test_connection', {key: integrations[i].name, secret: integrations[i].apikey});
+        console.log(`Connection to ${integrations[i].name}: ${success}`);
     }
 
     /**

@@ -6,12 +6,15 @@ mod ipinfo;
 mod emailrep;
 mod secrets;
 mod integrations;
+mod scanner;
 
 use crate::urlscan::*;
 use crate::ipinfo::*;
 use crate::emailrep::*;
 use crate::secrets::*;
 use crate::integrations::*;
+use crate::scanner::*;
+
 
 
 fn main() {
@@ -27,7 +30,8 @@ fn main() {
       remove_secret,
       update_secret, 
       create_secrets_store,
-      get_integrations
+      get_integrations,
+      scan
       ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

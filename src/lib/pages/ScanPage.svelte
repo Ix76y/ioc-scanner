@@ -1,13 +1,33 @@
 <script>
+// @ts-nocheck
+
     import { invoke } from '@tauri-apps/api/tauri';
+
+    // import { setContext, getContext } from 'svelte';
 
     import SearchBar from '../SearchBar.svelte';
     import IpInfo from './tools/IpInfo.svelte';
     import EmailRep from './tools/EmailRep.svelte';
     import UrlScan from './tools/UrlScan.svelte';
 
+    // variables
     var selectedTab = 0;
     var tabs = ["Summary", "URLScan.io", "EmailRep", "IPInfo.io"];
+   
+    let quota = {'day': 'No Quota retreived yet.'};
+    let hasStore = false
+    let scanResult = [];
+    let ipinfoResult = {
+        "ip": "",
+        "hostname": "",
+        "city": "",
+        "region": "",
+        "country": "",
+        "loc": "",
+        "org": "",
+        "postal": "",
+        "timezone": ""
+    }
 
     /**
      * @param {string} tab
@@ -16,23 +36,42 @@
         selectedTab = tabs.indexOf(tab);
     }
 
-    let quota = {'day': 'No Quota retreived yet.'};
+    // @ts-ignore
     async function getUrlScanQuota() {
         let data = await invoke('get_urlscan_quota');
         console.log(data);
         quota = JSON.parse(data);
     }
 
-    let hasStore = false
     async function hasSecretsStore() {
         hasStore = await invoke('has_secrets_store');
+    }
+
+    // @ts-ignore
+    async function scanCallback(event) {
+        let input = event.detail.input;
+        let category = event.detail.category;
+        scanResult = await invoke('scan', {input: input, category: category});
+
+        console.log(`Scan Result for ${input}:${category}`)
+        for (const i of scanResult) {
+            console.log(`${i.integration} - Success: ${i.successfull} - Result: ${i.result}`);
+            if (i.successfull) {
+                if (i.integration == 'IPInfo.io') {
+                    ipinfoResult = JSON.parse(i.result);
+                    console.log(`Updated IPInfo.io Result: ${ipinfoResult}`);
+                }
+            } else {
+                // TODO: disable tab or show error message...
+            }
+        }
     }
 
     hasSecretsStore();
 </script>
 
 <div class="px-4 pt-4">
-    <SearchBar/>
+    <SearchBar on:scan={scanCallback}/>
 </div>
 <div class="p-4 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 divide-y divide-zinc-200 dark:divide-zinc-700">
     <!-- Tab Bar -->
@@ -51,20 +90,17 @@
     </div>
 
     <!-- Tab Content -->
-    {#if selectedTab == 0}
-        <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg">
-            <p class="text-gray-700 dark:text-gray-300 text-base p-16">
-                Work In Progress...  💻
-                {hasStore}
-            </p>
-        </div>
-    {:else if selectedTab == 1}
-        <UrlScan></UrlScan>
-    {:else if selectedTab == 2}
-        <EmailRep></EmailRep>
-    {:else if selectedTab == 3}
-        <IpInfo></IpInfo>
-    {/if}
+    <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg p-4">
+        {#if selectedTab == 0}
+            <div>{ scanResult }</div>
+        {:else if selectedTab == 1}
+            <UrlScan></UrlScan>
+        {:else if selectedTab == 2}
+            <EmailRep></EmailRep>
+        {:else if selectedTab == 3}
+            <IpInfo {ipinfoResult}></IpInfo>
+        {/if}
+    </div>
     <!--
     
     <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg">

@@ -4,14 +4,18 @@ use reqwest::{blocking::{Client, Response}, StatusCode, header::{HeaderMap, Head
 
 
 #[tauri::command]
-pub fn get_ipinfo() -> String {
+pub fn get_ipinfo(ip: &str) -> Result<String, String> {
+    return get(&ip);
+}
+
+fn get(ip: &str) -> Result<String, String> {
     let mut headers = HeaderMap::new();
     headers.insert("Content-Type", HeaderValue::from_str("application/json").unwrap());
-    let response = http::make_get_request("https://ipinfo.io/", headers);
+    let response = http::make_get_request(&format!("https://ipinfo.io/{}", ip), headers);
     let status = response.status();
 
     match status {
-        StatusCode::OK => response.text().unwrap(),
-        _ => format!("None 200 status."),
+        StatusCode::OK => Ok(response.text().unwrap()),
+        _ => Err(format!("Error in Response: {}", status)),
     }
 }

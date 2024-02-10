@@ -21,7 +21,7 @@
         btn?.classList.add("cursor-progress");
 
         // get data
-        let data = await invoke('get_ipinfo');
+        let data = await invoke('get_ipinfo', {ip: ''});
 
         // reset button
         btn?.classList.remove("cursor-progress");
@@ -29,14 +29,15 @@
         
         // load data
         ipinfo = JSON.parse(data);
+        console.log(`IPInfo data: ${ipinfo}`)
         var location = ipinfo.loc.split(",")
         // display the map
-        var map = L.map('map').setView([location[0], location[1]], 10);
+        var mymap = L.map('my-map').setView([location[0], location[1]], 10);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap'
-        }).addTo(map);
-        L.marker([location[0], location[1]]).addTo(map);
+        }).addTo(mymap);
+        L.marker([location[0], location[1]]).addTo(mymap);
         console.log("Location: ", ipinfo.loc);
     }
 </script>
@@ -52,7 +53,7 @@
         <div class="col-span-2">{ipinfo.hostname}</div>
         <div class="col-span-2">{ipinfo.org}</div>
         <div class="col-span-2">{ipinfo.timezone}</div>
-        <div id="map" class="col-span-3 row-span-3 bg-sky-900 z-0" style="height: 200px;"></div>
+        <div id="my-map" class="col-span-3 row-span-3 bg-sky-900 z-0" style="height: 200px;"></div>
         {#if ipinfo.city.length > 0}
             <div class="col-span-2">{ipinfo.city}, {ipinfo.region}, {ipinfo.country}</div>
         {:else}
