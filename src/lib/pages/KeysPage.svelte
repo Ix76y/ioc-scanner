@@ -42,7 +42,7 @@
      */
     async function testConnection(i) {
         console.log(`Testing connection for ${integrations[i].name}`);
-        let success = await invoke('test_connection', {key: integrations[i].name, secret: integrations[i].apikey});
+        let success = await invoke('test_connection', {key: integrations[i].name, secret: integrations[i].secret});
         console.log(`Connection to ${integrations[i].name}: ${success}`);
     }
 
@@ -50,7 +50,7 @@
      * @param {number} i
      */
     async function saveIntegration(i) {
-        let saved = await invoke('update_secret', {key: integrations[i].name, secret: integrations[i].apikey});
+        let saved = await invoke('update_secret', {key: integrations[i].name, secret: integrations[i].secret});
         console.log("Key successfully saved! Getting integrations again to update UI?");
         getIntegrations();
     }
@@ -89,9 +89,13 @@
                         <div class="flex flex-row py-2 items-center min-w-96">
                             <label for="api-key"
                                 class="pr-4 pointer-events-none h-full select-nonetext-sm leading-tight text-gray-600 dark:text-gray-200 transition-all  after:scale-x-0 after:border-b-2 after:border-gray-500 after:transition-transform after:duration-300 peer-placeholder-shown:leading-tight peer-placeholder-shown:text-blue-gray-500 peer-focus:text-sm peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:after:scale-x-100 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-                                API Key: 
+                                {#if integration.secret_type == "ApiKey"}
+                                    API Key:
+                                {:else}
+                                    Token:
+                                {/if}
                             </label>
-                            <input type="password" bind:value={integration.apikey} id="api-key" style="min-width: 320px;" class="grow mr-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500" required> 
+                            <input type="password" bind:value={integration.secret} id="api-key" style="min-width: 320px;" class="grow mr-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500" required> 
                             <div class="inline-flex rounded-md shadow-sm" role="group">
                                 <!-- TOOD: save/ update function on click & button style-->
                                 <button type="button" on:click={() => saveIntegration(i)} class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
@@ -101,7 +105,7 @@
                                     Settings
                                 </button>-->
                                 <!-- TOOD: disbaled button style & test function & show checkmark after test -->
-                                <button type="button" disabled={!integration.configured && integration.apikey.length == 0} on:click={() => testConnection(i)} class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white disabled:cursor-not-allowed">
+                                <button type="button" disabled={!integration.configured && integration.secret.length == 0} on:click={() => testConnection(i)} class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white disabled:cursor-not-allowed">
                                     Test
                                 </button>
                             </div>

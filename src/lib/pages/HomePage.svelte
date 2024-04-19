@@ -7,6 +7,7 @@
     import ipinfoLogo from '$lib/assets/ipinfo-logo.png';
     import emailrepLogo from '$lib/assets/emailrep-logo.png';
     import abuseipdbLogo from '$lib/assets/abuseipdb-logo.png';
+    import domaintoolsLogo from '$lib/assets/domaintools-logo.png';
 
     import IpInfo from './tools/MyIpInfo.svelte';
 
@@ -20,7 +21,8 @@
         {'name': 'VirusTotal', 'url':'https://www.virustotal.com/gui/home/upload', 'img': vtLogo, 'status': 'Not Started'},
         {'name': 'IPLocation', 'url':'https://www.iplocation.net/', 'img': 'vt-logo.png', 'status': 'Not Started'},
         {'name': 'AbuseIPDB', 'url':'https://www.abuseipdb.com/', 'img': abuseipdbLogo, 'status': 'Not Started'},
-        {'name': 'HaveIBeenPwned', 'url':'https://haveibeenpwned.com/', 'img': 'vt-logo.png', 'status': 'Not Started'}
+        {'name': 'HaveIBeenPwned', 'url':'https://haveibeenpwned.com/', 'img': 'vt-logo.png', 'status': 'Not Started'},
+        {'name': 'DomainTools', 'url':'https://www.domaintools.com', 'img': domaintoolsLogo, 'status': 'Not Started'}
     ];
 
     
