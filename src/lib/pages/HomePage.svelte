@@ -110,7 +110,7 @@
         <h3 class="text-xl font-extrabold my-2">Integrations</h3>
         <p class="text-sm font-extralight">
             Following is a list of integrations that are either already supported or will be supported in the future and the current status.
-            If you would like to have a specific tool added, open a issue on our GitHub repository. 
+            If you would like to have a specific tool added, open an issue on our GitHub repository. 
         </p>
         {#each integrations as integration}
             <div class="bg-white dark:bg-zinc-800 hover:bg-zinc-50 hover:dark:bg-zinc-700 rounded overflow-hidden flex flew-row p-3 my-2 items-center">

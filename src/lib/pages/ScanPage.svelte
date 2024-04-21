@@ -28,6 +28,7 @@
         "postal": "",
         "timezone": ""
     }
+    //let showIPMap;
 
     /**
      * @param {string} tab
@@ -60,11 +61,31 @@
                 if (i.integration == 'IPInfo.io') {
                     ipinfoResult = JSON.parse(i.result);
                     console.log(`Updated IPInfo.io Result: ${ipinfoResult}`);
+                    //showIPMap();
+                    // split location for map
+                    showIPMap(ipinfoResult.loc.split(","));
                 }
             } else {
                 // TODO: disable tab or show error message...
             }
         }
+    }
+
+    function showIPMap(location) {
+        console.log('Show map at ' + location);
+        // display the map
+        let ipMap = document.getElementById('ip-map');
+        if (ipMap) {
+            var mymap = L.map('ip-map').setView([location[0], location[1]], 10);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(mymap);
+            L.marker([location[0], location[1]]).addTo(mymap);
+        } else {
+            console.log("No map found :(");
+        }
+        console.log("Location: ", ipinfoResult.loc);
     }
 
     hasSecretsStore();

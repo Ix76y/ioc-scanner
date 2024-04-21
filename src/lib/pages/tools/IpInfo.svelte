@@ -15,26 +15,27 @@
         "timezone": ""
     }
 
-    function getIpInfo() {
+    export const showMap = () => {
         // split location for map
         var location = ipinfoResult.loc.split(",")
 
-        // display the map, throws an error... not sure why :(
-        /*
-        var map = L.map('map').setView([location[0], location[1]], 10);
-        
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-        L.marker([location[0], location[1]]).addTo(map);*/
+        // display the map
+        let ipMap = document.getElementById('ip-map');
+        if (ipMap) {
+            var mymap = L.map('ip-map').setView([location[0], location[1]], 10);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(mymap);
+            L.marker([location[0], location[1]]).addTo(mymap);
+        }
         console.log("Location: ", ipinfoResult.loc);
     }
 
-    getIpInfo();
+    // getIpInfo();
 </script>
 
-<div class="grid grid-cols-6 grid-rows-4 grid-flow-col gap-4">
+<!--<div class="grid grid-cols-6 grid-rows-4 grid-flow-col gap-4">
     <div class="select-none cursor-default">IP:</div>
     <div class="select-none cursor-default">Hostname:</div>
     <div class="select-none cursor-default">Org:</div>
@@ -49,6 +50,45 @@
     {:else}
         <div class="col-span-2"></div>
     {/if}
+</div>-->
+
+<div class="grid grid-cols-2 grid-rows-4 grid-flow-col gap-3 m-4">
+    <div class="">
+        <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">IP</div>
+        <div class="">{ipinfoResult.ip}</div>
+    </div>
+    {#if ipinfoResult.hostname}
+    <div class="">
+        <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Hostname</div>
+        <div class="">{ipinfoResult.hostname}</div>
+    </div>
+    {/if}
+    {#if ipinfoResult.org}
+    <div class="">
+        <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Org</div>
+        <div class="">{ipinfoResult.org}</div>
+    </div>
+    {/if}
+    {#if ipinfoResult.timezone}
+    <div class="">
+        <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Timezone</div>
+        <div class="">{ipinfoResult.timezone}</div>
+    </div>
+    {/if}
+    <!--{#if ipinfoResult.loc }-->
+    <div id="ip-map" class="col-span-3 row-span-3 bg-sky-900 z-0" style="height: 200px;"></div>
+    <!--{/if}-->
+    {#if ipinfoResult.city}
+    <div class="">
+        <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Location</div>
+        {#if ipinfoResult.city.length > 0}
+            <div class="">{ipinfoResult.city}, {ipinfoResult.region}, {ipinfoResult.country}</div>
+        {:else}
+            <div class=""></div>
+        {/if}
+    </div>
+    {/if}
+    <!--<div id="my-map" class="col-span-3 row-span-3 bg-sky-900 z-0" style="height: 200px;"></div>-->
 </div>
 
 <!--
