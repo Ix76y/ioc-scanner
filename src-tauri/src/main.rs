@@ -1,14 +1,12 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod urlscan;
-mod ipinfo;
-mod emailrep;
 mod secrets;
-mod integrations;
 mod scanner;
+mod integrations; 
+mod http;
 
-use crate::urlscan::*;
+use crate::urlscanio::*;
 use crate::ipinfo::*;
 use crate::emailrep::*;
 use crate::secrets::*;

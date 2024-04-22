@@ -50,7 +50,7 @@ pub struct ScanResult {
 pub fn scan(input: String, category: String) -> Result<Vec<ScanResult>, String> {
     let valid_input = validate_input(&input, &category);
     if !valid_input {
-        return Err(String::from("Invalid Input."));
+        return Err(format!("Invalid Input: Input doesn't match selected category {}.", category));
     }
 
     let mut results: Vec<ScanResult> = Vec::new();

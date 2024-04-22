@@ -1,7 +1,7 @@
 use reqwest::{blocking::Response, StatusCode, header::HeaderMap};
 use urlencoding::encode;
 
-#[path = "http.rs"] mod http; 
+// #[path = "http.rs"] mod http; 
 
 #[tauri::command]
 pub fn get_emailrep(email: &str) -> String {

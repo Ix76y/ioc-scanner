@@ -1,3 +1,7 @@
+pub mod emailrep;
+pub mod ipinfo;
+pub mod urlscanio;
+
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
 use urlscan::api::quota::model::Category;
@@ -59,7 +63,9 @@ pub fn get_integrations() -> [Integration; 8] {
         if configured_integrations.contains(&integration.name) {
             integration.configured = true;
             let secret = get_secret(&integration.name);
-            integration.secret = secret;
+            if let Some(secret) = secret {
+                integration.secret = secret;
+            }
         }
     }
     integrations
