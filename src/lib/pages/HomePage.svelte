@@ -27,6 +27,7 @@
 
     
     const changeLog = [
+        {version: '0.3', description: 'IPInfo.io fully integrated: Showing general and privacy information.'},
         {version: '0.2', description: 'Added support for EmailRep and IPInfo.'},
         {version: '0.1', description: 'First alpha release of app.'},
     ]

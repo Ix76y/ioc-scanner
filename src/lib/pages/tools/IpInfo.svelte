@@ -7,19 +7,21 @@
 
     export const showMap = () => {
         // split location for map
-        var location = ipinfoResult.loc.split(",")
+        if (ipinfoResult.loc) {
+            var location = ipinfoResult.loc.split(",")
 
-        // display the map
-        let ipMap = document.getElementById('ip-map');
-        if (ipMap) {
-            var mymap = L.map('ip-map').setView([location[0], location[1]], 10);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap'
-            }).addTo(mymap);
-            L.marker([location[0], location[1]]).addTo(mymap);
+            // display the map
+            let ipMap = document.getElementById('ip-map');
+            if (ipMap) {
+                var mymap = L.map('ip-map').setView([location[0], location[1]], 10);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap'
+                }).addTo(mymap);
+                L.marker([location[0], location[1]]).addTo(mymap);
+            }
+            console.log("Location: ", ipinfoResult.loc);
         }
-        console.log("Location: ", ipinfoResult.loc);
     }
 
     // getIpInfo();
@@ -72,7 +74,7 @@
             {/if}-->
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Location</div>
-                {#if ipinfoResult.city.length > 0}
+                {#if ipinfoResult.city && ipinfoResult.city.length > 0}
                     <div class="">{ipinfoResult.city}, {ipinfoResult.region}, {ipinfoResult.country}</div>
                 {:else}
                     <div class="">-</div>

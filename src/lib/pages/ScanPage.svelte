@@ -63,7 +63,7 @@
                     console.log(`Updated IPInfo.io Result: ${ipinfoResult}`);
                     //showIPMap();
                     // split location for map
-                    showIPMap(ipinfoResult.loc.split(","));
+                    // showIPMap(ipinfoResult.loc.split(","));
                 }
             } else {
                 // TODO: disable tab or show error message...
