@@ -31,7 +31,7 @@ The goal for this app is to have the following integrations:
 
 - [ ] URLScan.io
 - [ ] VirusTotal 
-- [ ] ipinfo.io
+- [x] IPInfo.io
 - [ ] IPLocation.net
 - [ ] AbuseIPDB
 - [ ] EmailRep.io
