@@ -56,6 +56,11 @@
         let input = event.detail.input;
         let category = event.detail.category;
         scanResult = await invoke('scan', {input: input, category: category});
+        // TODO: just for testing (to not submit URLScan scans all the time):
+        /*let uuid = '90169cd3-5f06-46c5-b2d3-6c297d9c07f8';
+        urlscanLoading = true;
+        waitForURLScanResults(uuid, 5);
+        return;*/
 
         console.log(`Scan Result for ${input}:${category}`)
         for (const i of scanResult) {
@@ -84,13 +89,12 @@
             return;
         }
         console.log("Wait for URLScan Result, start.");
-        await new Promise(r => setTimeout(r, 2000));
+        await new Promise(r => setTimeout(r, 10000));
         console.log("Wait for URLScan Result, after sleep.");
         let result = await invoke('get_urlscan_result', {uuid: uuid});
         // console.log(result);
         try {
             urlscanResult = JSON.parse(result);
-            console.log("Cast to JSON! " + urlscanResult);
             urlscanLoading = false;
             return;
         } catch (error) {

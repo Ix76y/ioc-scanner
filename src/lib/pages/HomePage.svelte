@@ -15,7 +15,7 @@
     const chartSize = 250;
 
     let integrations = [
-        {'name': 'URLScan.io', 'url': 'https://urlscan.io/', 'img': urlscanLogo, 'status': 'In Progress'},
+        {'name': 'URLScan.io', 'url': 'https://urlscan.io/', 'img': urlscanLogo, 'status': 'Done'},
         {'name': 'EmailRep', 'url': 'https://emailrep.io/','img': emailrepLogo, 'status': 'In Progress'},
         {'name': 'IPInfo.io', 'url':'https://ipinfo.io/', 'img': ipinfoLogo, 'status': 'Done'},
         {'name': 'VirusTotal', 'url':'https://www.virustotal.com/gui/home/upload', 'img': vtLogo, 'status': 'Not Started'},
@@ -27,6 +27,7 @@
 
     
     const changeLog = [
+        {version: '0.4', description: 'URLScan.io added to scan results.'},
         {version: '0.3', description: 'IPInfo.io fully integrated: Showing general and privacy information.'},
         {version: '0.2', description: 'Added support for EmailRep and IPInfo.'},
         {version: '0.1', description: 'First alpha release of app.'},

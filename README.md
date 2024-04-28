@@ -29,7 +29,7 @@ The app will automatically update the UI whenever you make any changes to the co
 
 The goal for this app is to have the following integrations:
 
-- [ ] URLScan.io
+- [x] URLScan.io
 - [ ] VirusTotal 
 - [x] IPInfo.io
 - [ ] IPLocation.net
