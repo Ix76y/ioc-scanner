@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use validator::{validate_email, validate_ip, validate_url};
 
 use crate::ipinfo::get_ipinfo;
+use crate::urlscanio;
 
 #[derive(Debug)]
 enum Category {
@@ -64,6 +65,23 @@ pub fn scan(input: String, category: String) -> Result<Vec<ScanResult>, String> 
                         successfull: true,
                         integration: integration.to_string(),
                         result: result
+                    }),
+                    Err(result) => results.push(ScanResult {
+                        successfull: false,
+                        integration: integration.to_string(),
+                        result: result,
+                    })
+                };
+            },
+            "URLScan.io" => {
+                let visibility: &str = "private";
+                let tags: &str = "IOC-Scanner";
+                let result = urlscanio::scan_url(&input, visibility, tags);
+                match result {
+                    Ok(result) => results.push(ScanResult { 
+                        successfull: true, 
+                        integration: integration.to_string(), 
+                        result: result 
                     }),
                     Err(result) => results.push(ScanResult {
                         successfull: false,
