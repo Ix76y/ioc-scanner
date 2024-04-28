@@ -28,6 +28,9 @@
         "postal": "",
         "timezone": ""
     }
+    let urlscanLoading = false;
+    let urlscanResult = {};
+
     //let showIPMap;
 
     /**
@@ -64,10 +67,35 @@
                     //showIPMap();
                     // split location for map
                     // showIPMap(ipinfoResult.loc.split(","));
+                } else if (i.integration == 'URLScan.io') {
+                    let uuid = i.result;
+                    urlscanLoading = true;
+                    waitForURLScanResults(uuid, 5);
                 }
             } else {
                 // TODO: disable tab or show error message...
             }
+        }
+    }
+
+    async function waitForURLScanResults(uuid, retries) {
+        if (retries<1) {
+            console.log("Max Retries reached.");
+            return;
+        }
+        console.log("Wait for URLScan Result, start.");
+        await new Promise(r => setTimeout(r, 2000));
+        console.log("Wait for URLScan Result, after sleep.");
+        let result = await invoke('get_urlscan_result', {uuid: uuid});
+        // console.log(result);
+        try {
+            urlscanResult = JSON.parse(result);
+            console.log("Cast to JSON! " + urlscanResult);
+            urlscanLoading = false;
+            return;
+        } catch (error) {
+            console.log("Error casting: " + result);
+            waitForURLScanResults(uuid, retries-1);
         }
     }
 
@@ -115,7 +143,7 @@
         {#if selectedTab == 0}
             <div>{ scanResult }</div>
         {:else if selectedTab == 1}
-            <UrlScan></UrlScan>
+            <UrlScan {urlscanLoading} {urlscanResult}></UrlScan>
         {:else if selectedTab == 2}
             <EmailRep></EmailRep>
         {:else if selectedTab == 3}

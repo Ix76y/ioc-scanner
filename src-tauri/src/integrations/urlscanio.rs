@@ -1,5 +1,10 @@
-
+use std::thread;
 use urlscan::UrlScanClient;
+
+use crate::get_secret;
+
+
+const URLSCAN_NAME: &str = "URLScan.io";
 
 #[derive(Debug)]
 struct UrlScan {
@@ -23,16 +28,34 @@ pub fn get_urlscan_quota() -> String {
   }
 }
 
-#[tauri::command]
+// #[tauri::command]
 pub fn scan_url(url: &str, visibility: &str, tags: &str) -> Result<String, String> {
-  // TODO: check if url is valid
-  let tags: Vec<String> = tags.split(",").map(|v| v.to_string()).collect();
-  let api_key = String::from("TODO");
-  let client = UrlScan{api_key}.get_client();
-  let response = client.scan_url(url, visibility, tags);
-  match response {
-      Ok(value) => Ok(format!("{:?}", value)),
-      _ => Err(format!("Error scanning the URL")),
+  let api_key = get_secret(URLSCAN_NAME);
+  if let Some(api_key) = api_key {
+    let tags: Vec<String> = tags.split(",").map(|v| v.to_string()).collect();
+    let client = UrlScan{api_key}.get_client();
+    let response = client.scan_url(url, visibility, tags);
+    match response {
+        Ok(value) => Ok(value.uuid),
+        Err(e) => Err(format!("Error scanning the URL. Reason: {:?}", e)),
+    }
+  } else {
+    return Err(format!("No URLScan.io API Key."));
+  }
+}
+
+#[tauri::command]
+pub fn get_urlscan_result(uuid: &str) -> String {
+  let api_key = get_secret(URLSCAN_NAME);
+  if let Some(api_key) = api_key {
+    let client = UrlScan{api_key}.get_client();
+    let response = client.get_result(uuid);
+    match response {
+        Ok(result) => return result,
+        Err(e) => return format!("Something went wrong :( {}", e),
+    }
+  } else {
+    return format!("No URLScan.io API Key.")
   }
 }
 

@@ -19,7 +19,7 @@ fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
       get_urlscan_quota, 
-      scan_url, 
+      get_urlscan_result,
       get_ipinfo, 
       get_emailrep, 
       has_secrets_store, 
