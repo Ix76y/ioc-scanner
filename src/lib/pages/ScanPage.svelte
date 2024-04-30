@@ -81,9 +81,9 @@
                     waitForURLScanResults(uuid, 5);
                 } else if (i.integration == 'EmailRep') {
                     emailRepResult = JSON.parse(i.result);
-                    console.log('EmailRep: ' + i.result);
+                    //console.log('EmailRep: ' + i.result);
                     
-                    console.log('EmailRep: ' + JSON.parse(emailRepResult));
+                    //console.log('EmailRep: ' + JSON.parse(emailRepResult));
                 }
             } else {
                 // TODO: disable tab or show error message...
@@ -157,7 +157,7 @@
         {:else if selectedTab == 1}
             <UrlScan {urlscanLoading} {urlscanResult}></UrlScan>
         {:else if selectedTab == 2}
-            <EmailRep></EmailRep>
+            <EmailRep {emailRepResult}></EmailRep>
         {:else if selectedTab == 3}
             <IpInfo {ipinfoResult}></IpInfo>
         {/if}
