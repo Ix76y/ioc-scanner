@@ -1,8 +1,54 @@
-use reqwest::{blocking::Response, StatusCode, header::HeaderMap};
+use reqwest::{blocking::Response, header::{HeaderMap, HeaderValue}, StatusCode};
 use urlencoding::encode;
+
+use crate::{get_secret, http, ScanResult};
 
 // #[path = "http.rs"] mod http; 
 
+const EMAILREP_NAME: &str = "EmailRep";
+
+#[tauri::command]
+pub fn get_emailrep(email: &str) -> ScanResult {
+    let result = get(&email);
+    match result {
+        Ok(result) =>  return ScanResult {
+            successfull: true,
+            integration: EMAILREP_NAME.to_string(),
+            result: result
+        },
+        Err(result) => return ScanResult {
+            successfull: false,
+            integration: EMAILREP_NAME.to_string(),
+            result: result,
+        }
+    };
+}
+
+fn get(email: &str) -> Result<String, String> {
+    let apikey = get_secret(EMAILREP_NAME);
+    if let Some(apikey) = apikey {
+        let encoded_email = encode(email);
+
+        // updating headers
+        let mut headers = HeaderMap::new();
+        headers.insert("Content-Type", HeaderValue::from_str("application/json").unwrap());
+        headers.insert("Key", HeaderValue::from_str(&apikey).unwrap());
+
+        // request
+        let response: Response = http::make_get_request(&format!("https://emailrep.io/query/{}", encoded_email), headers);
+
+        // check response
+        let status = response.status();
+        match status {
+            StatusCode::OK => Ok(response.text().unwrap()),
+            _ => Err(format!("Error in Response: {}", status)),
+        }
+    } else {
+        return Err(format!("No EmailRep API Key."));
+    }
+}
+
+/* 
 #[tauri::command]
 pub fn get_emailrep(email: &str) -> String {
     let _encoded_email = encode(email);
@@ -22,3 +68,4 @@ pub fn get_emailrep(email: &str) -> String {
     }
     */
 }
+*/

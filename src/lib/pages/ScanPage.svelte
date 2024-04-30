@@ -28,8 +28,11 @@
         "postal": "",
         "timezone": ""
     }
+
     let urlscanLoading = false;
     let urlscanResult = {};
+
+    let emailRepResult = {};
 
     //let showIPMap;
 
@@ -76,6 +79,11 @@
                     let uuid = i.result;
                     urlscanLoading = true;
                     waitForURLScanResults(uuid, 5);
+                } else if (i.integration == 'EmailRep') {
+                    emailRepResult = JSON.parse(i.result);
+                    console.log('EmailRep: ' + i.result);
+                    
+                    console.log('EmailRep: ' + JSON.parse(emailRepResult));
                 }
             } else {
                 // TODO: disable tab or show error message...

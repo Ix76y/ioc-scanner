@@ -1,6 +1,6 @@
 use reqwest::{blocking::{Client, Response}, StatusCode, header::{HeaderMap, HeaderValue}};
 
-use crate::{get_secret, http};
+use crate::{get_secret, http, ScanResult};
 
 
 //#[path = "http.rs"] mod http; 
@@ -8,8 +8,20 @@ use crate::{get_secret, http};
 const IPINFO_NAME: &str = "IPInfo.io";
 
 #[tauri::command]
-pub fn get_ipinfo(ip: &str) -> Result<String, String> {
-    return get(&ip);
+pub fn get_ipinfo(ip: &str) -> ScanResult {
+    let result = get(&ip);
+    match result {
+        Ok(result) =>  return ScanResult {
+            successfull: true,
+            integration: IPINFO_NAME.to_string(),
+            result: result
+        },
+        Err(result) => return ScanResult {
+            successfull: false,
+            integration: IPINFO_NAME.to_string(),
+            result: result,
+        }
+    };
 }
 
 fn get(ip: &str) -> Result<String, String> {

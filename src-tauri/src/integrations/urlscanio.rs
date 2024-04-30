@@ -1,7 +1,7 @@
 use std::thread;
 use urlscan::UrlScanClient;
 
-use crate::get_secret;
+use crate::{get_secret, ScanResult};
 
 
 const URLSCAN_NAME: &str = "URLScan.io";
@@ -29,18 +29,30 @@ pub fn get_urlscan_quota() -> String {
 }
 
 // #[tauri::command]
-pub fn scan_url(url: &str, visibility: &str, tags: &str) -> Result<String, String> {
+pub fn scan_url(url: &str, visibility: &str, tags: &str) -> ScanResult {
   let api_key = get_secret(URLSCAN_NAME);
   if let Some(api_key) = api_key {
     let tags: Vec<String> = tags.split(",").map(|v| v.to_string()).collect();
     let client = UrlScan{api_key}.get_client();
     let response = client.scan_url(url, visibility, tags);
     match response {
-        Ok(value) => Ok(value.uuid),
-        Err(e) => Err(format!("Error scanning the URL. Reason: {:?}", e)),
+        Ok(value) => return ScanResult { 
+          successfull: true, 
+          integration: URLSCAN_NAME.to_string(), 
+          result: value.uuid 
+      },
+        Err(e) => return ScanResult {
+          successfull: false,
+          integration: URLSCAN_NAME.to_string(),
+          result: format!("Error scanning the URL. Reason: {:?}", e),
+      },
     }
   } else {
-    return Err(format!("No URLScan.io API Key."));
+    return ScanResult {
+      successfull: false,
+      integration: URLSCAN_NAME.to_string(),
+      result: format!("No URLScan.io API Key."),
+    };
   }
 }
 

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use validator::{validate_email, validate_ip, validate_url};
 
 use crate::ipinfo::get_ipinfo;
-use crate::urlscanio;
+use crate::{get_emailrep, urlscanio};
 
 #[derive(Debug)]
 enum Category {
@@ -42,9 +42,9 @@ impl FromStr for Category {
 
 #[derive(Serialize, Deserialize)]
 pub struct ScanResult {
-    successfull: bool,      // was the API call successull?
-    integration: String,    // name of the integration returning the data
-    result: String          // JSON from the API call
+    pub successfull: bool,      // was the API call successull?
+    pub integration: String,    // name of the integration returning the data
+    pub result: String          // JSON from the API call
 }
 
 #[tauri::command]
@@ -59,37 +59,19 @@ pub fn scan(input: String, category: String) -> Result<Vec<ScanResult>, String> 
     for integration in get_integrations_by_category().get(&category).unwrap() {
         match integration.as_str() {
             "IPInfo.io" => {
-                let result = get_ipinfo(&input);
-                match result {
-                    Ok(result) => results.push(ScanResult {
-                        successfull: true,
-                        integration: integration.to_string(),
-                        result: result
-                    }),
-                    Err(result) => results.push(ScanResult {
-                        successfull: false,
-                        integration: integration.to_string(),
-                        result: result,
-                    })
-                };
+                let result: ScanResult = get_ipinfo(&input);
+                results.push(result);
             },
             "URLScan.io" => {
                 let visibility: &str = "private";
                 let tags: &str = "IOC-Scanner";
-                let result = urlscanio::scan_url(&input, visibility, tags);
-                match result {
-                    Ok(result) => results.push(ScanResult { 
-                        successfull: true, 
-                        integration: integration.to_string(), 
-                        result: result 
-                    }),
-                    Err(result) => results.push(ScanResult {
-                        successfull: false,
-                        integration: integration.to_string(),
-                        result: result,
-                    })
-                };
+                let result: ScanResult = urlscanio::scan_url(&input, visibility, tags);
+                results.push(result);
             },
+            "EmailRep" => {
+                let result: ScanResult = get_emailrep(&input);
+                results.push(result);
+            }
             _ => (),
         }
     }
