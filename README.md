@@ -34,5 +34,6 @@ The goal for this app is to have the following integrations:
 - [x] IPInfo.io
 - [ ] IPLocation.net
 - [ ] AbuseIPDB
-- [ ] EmailRep.io
+- [x] EmailRep.io
 - [ ] HaveIBeenPwned
+- [ ] DomainTools
