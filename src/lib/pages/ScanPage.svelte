@@ -1,22 +1,33 @@
 <script>
 // @ts-nocheck
-
+    import { onMount } from 'svelte';
     import { invoke } from '@tauri-apps/api/tauri';
 
     // import { setContext, getContext } from 'svelte';
 
     import SearchBar from '../SearchBar.svelte';
-    import IpInfo from './tools/IpInfo.svelte';
-    import EmailRep from './tools/EmailRep.svelte';
-    import UrlScan from './tools/UrlScan.svelte';
+
+    let IpInfo;
+    let EmailRep; 
+    let UrlScan;
+
+    // load components dynamically
+    onMount(async () => {
+		IpInfo = (await import('./tools/IpInfo.svelte')).default;
+        EmailRep = (await import('./tools/EmailRep.svelte')).default;
+        UrlScan = (await import('./tools/UrlScan.svelte')).default;
+	});
 
     // variables
     var selectedTab = 0;
-    var tabs = ["Summary", "URLScan.io", "EmailRep", "IPInfo.io"];
+    var tabs = ["Summary"];
+    var tabContent = [];
    
     let quota = {'day': 'No Quota retreived yet.'};
-    let hasStore = false
-    let scanResult = [];
+    let hasStore = false;
+    let scanResult ={};
+    var uiUpdate = false;
+
     let ipinfoResult = {
         "ip": "",
         "hostname": "",
@@ -27,12 +38,7 @@
         "org": "",
         "postal": "",
         "timezone": ""
-    }
-
-    let urlscanLoading = false;
-    let urlscanResult = {};
-
-    let emailRepResult = {};
+    };
 
     //let showIPMap;
 
@@ -58,37 +64,51 @@
     async function scanCallback(event) {
         let input = event.detail.input;
         let category = event.detail.category;
-        scanResult = await invoke('scan', {input: input, category: category});
+        let data = await invoke('scan', {input: input, category: category});
         // TODO: just for testing (to not submit URLScan scans all the time):
         /*let uuid = '90169cd3-5f06-46c5-b2d3-6c297d9c07f8';
-        urlscanLoading = true;
+        scanResult.urlscan = {};
+        scanResult.urlscan.loading = true;
+        tabs.push("URLScan.io");
+        tabContent.push(UrlScan);
+        tabs = tabs;
+        tabContent = tabContent;
+        console.log("Tabs: " + tabs + " Selected Tab: " + selectedTab + " Result: " + scanResult);
         waitForURLScanResults(uuid, 5);
         return;*/
 
         console.log(`Scan Result for ${input}:${category}`)
-        for (const i of scanResult) {
+        for (const i of data) {
             console.log(`${i.integration} - Success: ${i.successfull} - Result: ${i.result}`);
             if (i.successfull) {
+                tabs.push(i.integration);
                 if (i.integration == 'IPInfo.io') {
+                    tabContent.push(IpInfo);
                     ipinfoResult = JSON.parse(i.result);
+                    scanResult.ipinfo = ipinfoResult;
                     console.log(`Updated IPInfo.io Result: ${ipinfoResult}`);
                     //showIPMap();
                     // split location for map
                     // showIPMap(ipinfoResult.loc.split(","));
                 } else if (i.integration == 'URLScan.io') {
+                    tabContent.push(UrlScan);
                     let uuid = i.result;
-                    urlscanLoading = true;
+                    scanResult.urlscan = {};
+                    scanResult.urlscan.loading = true;
                     waitForURLScanResults(uuid, 5);
                 } else if (i.integration == 'EmailRep') {
-                    emailRepResult = JSON.parse(i.result);
+                    tabContent.push(EmailRep);
+                    scanResult.emailrep = JSON.parse(i.result);
                     //console.log('EmailRep: ' + i.result);
-                    
-                    //console.log('EmailRep: ' + JSON.parse(emailRepResult));
                 }
             } else {
                 // TODO: disable tab or show error message...
             }
         }
+        uiUpdate = !uiUpdate;
+        tabs = tabs;
+        tabContent = tabContent;
+        console.log("Tabs: " + tabs + " Selected Tab: " + selectedTab + " Result: " + scanResult);
     }
 
     async function waitForURLScanResults(uuid, retries) {
@@ -102,8 +122,8 @@
         let result = await invoke('get_urlscan_result', {uuid: uuid});
         // console.log(result);
         try {
-            urlscanResult = JSON.parse(result);
-            urlscanLoading = false;
+            scanResult.urlscan = JSON.parse(result);
+            scanResult.urlscan.loading = false;
             return;
         } catch (error) {
             console.log("Error casting: " + result);
@@ -153,13 +173,10 @@
     <!-- Tab Content -->
     <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg p-4">
         {#if selectedTab == 0}
-            <div>{ scanResult }</div>
-        {:else if selectedTab == 1}
-            <UrlScan {urlscanLoading} {urlscanResult}></UrlScan>
-        {:else if selectedTab == 2}
-            <EmailRep {emailRepResult}></EmailRep>
-        {:else if selectedTab == 3}
-            <IpInfo {ipinfoResult}></IpInfo>
+            <div>Summary: { scanResult }</div>
+        {:else }
+            <svelte:component this={tabContent[selectedTab-1]} scanResult={scanResult}>
+            </svelte:component>
         {/if}
     </div>
     <!--

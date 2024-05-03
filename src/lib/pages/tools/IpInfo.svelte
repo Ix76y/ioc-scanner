@@ -3,7 +3,8 @@
 
     import { invoke } from '@tauri-apps/api/tauri';
 
-    export let ipinfoResult;
+    //export let ipinfoResult;
+    export let scanResult;
 
     export const showMap = () => {
         // split location for map
@@ -44,29 +45,28 @@
     {/if}
 </div>-->
 
- <!-- grid-rows-4 grid-flow-col -->
-    {#if ipinfoResult.ip}
+    {#if scanResult.ipinfo.ip}
     <div class="divide-y divide-dashed divide-gray-400 dark:divide-gray-600">
         <div class="grid grid-cols-2 gap-3">
             <div class="select-none cursor-default col-span-2 w-full italic font-thin text-slate-600 dark:text-slate-400 text-sm">General</div>
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">IP</div>
-                <div class="">{ipinfoResult.ip}</div>
+                <div class="">{scanResult.ipinfo.ip}</div>
             </div>
         
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Hostname</div>
-                <div class="">{#if ipinfoResult.hostname}{ipinfoResult.hostname}{:else}-{/if}</div>
+                <div class="">{#if scanResult.ipinfo.hostname}{scanResult.ipinfo.hostname}{:else}-{/if}</div>
             </div>
 
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Org</div>
-                <div class="">{#if ipinfoResult.org}{ipinfoResult.org}{:else}-{/if}</div>
+                <div class="">{#if scanResult.ipinfo.org}{scanResult.ipinfo.org}{:else}-{/if}</div>
             </div>
 
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Timezone</div>
-                <div class="">{#if ipinfoResult.timezone}{ipinfoResult.timezone}{:else}-{/if}</div>
+                <div class="">{#if scanResult.ipinfo.timezone}{scanResult.ipinfo.timezone}{:else}-{/if}</div>
             </div>
 
             <!--{#if ipinfoResult.loc }
@@ -74,8 +74,8 @@
             {/if}-->
             <div class="">
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Location</div>
-                {#if ipinfoResult.city && ipinfoResult.city.length > 0}
-                    <div class="">{ipinfoResult.city}, {ipinfoResult.region}, {ipinfoResult.country}</div>
+                {#if scanResult.ipinfo.city && scanResult.ipinfo.city.length > 0}
+                    <div class="">{scanResult.ipinfo.city}, {scanResult.ipinfo.region}, {scanResult.ipinfo.country}</div>
                 {:else}
                     <div class="">-</div>
                 {/if}
@@ -85,7 +85,7 @@
                 <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Other</div>
                 <div class="grid grid-cols-2">
                     <div class="flex items-center mb-1 select-none cursor-default ">
-                        {#if ipinfoResult.bogon}
+                        {#if scanResult.ipinfo.bogon}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -93,7 +93,7 @@
                         <div class="">Bogon</div>
                     </div>
                     <div class="flex items-center select-none cursor-default ">
-                        {#if ipinfoResult.anycast}
+                        {#if scanResult.ipinfo.anycast}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -109,8 +109,8 @@
             <div class="select-none cursor-default w-full italic font-thin text-slate-600 dark:text-slate-400 text-sm mb-3">Privacy</div>
             <div class="grid grid-cols-4 gap-3">
                 <div class="flex items-center mb-1 select-none cursor-default ">
-                    {#if ipinfoResult.privacy}
-                        {#if ipinfoResult.privacy.vpn}
+                    {#if scanResult.ipinfo.privacy}
+                        {#if scanResult.ipinfo.privacy.vpn}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -121,8 +121,8 @@
                     <div class="">VPN</div>
                 </div>
                 <div class="flex items-center mb-1 select-none cursor-default ">
-                    {#if ipinfoResult.privacy}
-                        {#if ipinfoResult.privacy.vpn}
+                    {#if scanResult.ipinfo.privacy}
+                        {#if scanResult.ipinfo.privacy.vpn}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -134,8 +134,8 @@
                 </div>
 
                 <div class="flex items-center mb-1 select-none cursor-default ">
-                    {#if ipinfoResult.privacy}
-                        {#if ipinfoResult.privacy.vpn}
+                    {#if scanResult.ipinfo.privacy}
+                        {#if scanResult.ipinfo.privacy.vpn}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -147,8 +147,8 @@
                 </div>
 
                 <div class="flex items-center mb-1 select-none cursor-default ">
-                    {#if ipinfoResult.privacy}
-                        {#if ipinfoResult.privacy.relay}
+                    {#if scanResult.ipinfo.privacy}
+                        {#if scanResult.ipinfo.privacy.relay}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -160,8 +160,8 @@
                 </div>
 
                 <div class="flex items-center mb-1 select-none cursor-default ">
-                    {#if ipinfoResult.privacy}
-                        {#if ipinfoResult.privacy.hosting}
+                    {#if scanResult.ipinfo.privacy}
+                        {#if scanResult.ipinfo.privacy.hosting}
                             <ion-icon class="text-green-600 dark:text-green-400" name="checkmark-outline"></ion-icon>
                         {:else}
                             <ion-icon class="text-red-600 dark:text-red-400" name="close-outline"></ion-icon>
@@ -174,7 +174,7 @@
 
                 <div class="">
                     <div class="select-none cursor-default text-xs font-light italic text-gray-600  dark:text-gray-400">Service</div>
-                    <div class="">{#if ipinfoResult.privacy}{ipinfoResult.privacy.service}{:else}-{/if}</div>
+                    <div class="">{#if scanResult.ipinfo.privacy}{scanResult.ipinfo.privacy.service}{:else}-{/if}</div>
                 </div>
             </div>
         </div>
