@@ -16,9 +16,9 @@
 
     let integrations = [
         {'name': 'URLScan.io', 'url': 'https://urlscan.io/', 'img': urlscanLogo, 'status': 'Done'},
-        {'name': 'EmailRep', 'url': 'https://emailrep.io/','img': emailrepLogo, 'status': 'In Progress'},
+        {'name': 'EmailRep', 'url': 'https://emailrep.io/','img': emailrepLogo, 'status': 'Done'},
         {'name': 'IPInfo.io', 'url':'https://ipinfo.io/', 'img': ipinfoLogo, 'status': 'Done'},
-        {'name': 'VirusTotal', 'url':'https://www.virustotal.com/gui/home/upload', 'img': vtLogo, 'status': 'Not Started'},
+        {'name': 'VirusTotal', 'url':'https://www.virustotal.com/gui/home/upload', 'img': vtLogo, 'status': 'In Progress'},
         {'name': 'IPLocation', 'url':'https://www.iplocation.net/', 'img': 'vt-logo.png', 'status': 'Not Started'},
         {'name': 'AbuseIPDB', 'url':'https://www.abuseipdb.com/', 'img': abuseipdbLogo, 'status': 'Not Started'},
         {'name': 'HaveIBeenPwned', 'url':'https://haveibeenpwned.com/', 'img': 'vt-logo.png', 'status': 'Not Started'},
