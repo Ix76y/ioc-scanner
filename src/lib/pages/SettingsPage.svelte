@@ -1,52 +1,46 @@
 <script>
     import { invoke } from '@tauri-apps/api/tauri';
+    import { Store } from "tauri-plugin-store-api";
 
-    let created = false
-    async function createSecretStore() {
-        created = await invoke('create_secrets_store');
-        console.log("Created secrets store..." + created);
-        hasSecretsStore();
+    const store = new Store("ioc-scanner.bin");
+    const secureScanKey = "SecureScan";
+
+    let secureScan = false;
+
+    // update store if value changes
+    const secureScanChange = async () => {
+        console.log(`Secure Scan changed: ${secureScan}`);
+        store.set(secureScanKey, secureScan);
+        await store.save();
+        console.log(`Saved store.`);
     }
 
-    let hasStore = false
-    async function hasSecretsStore() {
-        hasStore = await invoke('has_secrets_store');
-    }
 
-    let apiKey = "None";
-    /**
-     * @param {string} integration
-     * @param {string} secret
-     */
-    async function createNewSecret(integration, secret) {
-        let tmp = await invoke('update_secret', {key: integration, secret: secret})
-        console.log("Result from Create New Secret: " + tmp);
+    async function load_data() {
+        let tmp = await store.get(secureScanKey);
+        console.log(`Secure Scan: ${secureScan}`);
+        if (tmp == null) {
+            secureScan = false;
+            store.set(secureScanKey, secureScan);
+            await store.save();
+            console.log(`Saved store.`);
+        } else {
+            secureScan = tmp;
+        }
     }
-
-    /**
-     * @param {string} integration
-     */
-    async function getSecret(integration) {
-        let tmp = await invoke('get_secret', {key: integration});
-        console.log("Result from get Secret: " + tmp);
-        apiKey = tmp;
-    }
-
-    hasSecretsStore();
+    load_data();
 </script>
 
 <div class="p-4 bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
     <div class="bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden shadow-lg p-4">
-        {#if hasStore}
-            <div>Congratulations! You have a place to safe your secrets!</div>
-            <p>Create New Secret: </p><button on:click={() => createNewSecret('URLScan', 'HelloWorld!')}>New</button>
-            <p>Retreive Secret: </p><button on:click={() => getSecret('URLScan')}>Get</button>
-            <p>{apiKey}</p>
-        {:else}
-            <div>You don't have a secrets store yet.</div>
-            <button on:click={() => createSecretStore()}>Create secret store</button>
-        {/if}
-        <p>Has Secrets Store: {hasStore}</p>
-        <p>Created Store: {created}</p>
+        <h2>General</h2>
+        <div class="flex items-center mb-4">
+            <input id="default-checkbox" type="checkbox" bind:checked={secureScan} on:change={secureScanChange} value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+            <div class="ms-2 mt-5">
+                <label for="default-checkbox" class="text-sm font-medium text-gray-900 dark:text-gray-300">Secure Scan</label>
+                <p class="text-sm text-gray-700 dark:text-gray-500">When checked IOCs are not submitted to any tools, and this app will only do lookups.</p>
+            </div>
+        </div>
+        <h2>Summary</h2>
     </div>
 </div>
