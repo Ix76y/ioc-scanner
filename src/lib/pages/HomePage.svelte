@@ -3,6 +3,7 @@
     import Chart from 'chart.js/auto';
 
     import vtLogo from '$lib/assets/vt-logo.png';
+    import greynoiseLogo from '$lib/assets/greynoise-logo.png';
     import urlscanLogo from '$lib/assets/urlscan-logo.png';
     import ipinfoLogo from '$lib/assets/ipinfo-logo.png';
     import emailrepLogo from '$lib/assets/emailrep-logo.png';
@@ -19,10 +20,11 @@
         {'name': 'EmailRep', 'url': 'https://emailrep.io/','img': emailrepLogo, 'status': 'Done'},
         {'name': 'IPInfo.io', 'url':'https://ipinfo.io/', 'img': ipinfoLogo, 'status': 'Done'},
         {'name': 'VirusTotal', 'url':'https://www.virustotal.com/gui/home/upload', 'img': vtLogo, 'status': 'In Progress'},
-        {'name': 'IPLocation', 'url':'https://www.iplocation.net/', 'img': 'vt-logo.png', 'status': 'Not Started'},
+        {'name': 'GreyNoise', 'url':'https://viz.greynoise.io/', 'img': greynoiseLogo, 'status': 'In Progress'},
         {'name': 'AbuseIPDB', 'url':'https://www.abuseipdb.com/', 'img': abuseipdbLogo, 'status': 'Not Started'},
+        {'name': 'DomainTools', 'url':'https://www.domaintools.com', 'img': domaintoolsLogo, 'status': 'Not Started'},
+        {'name': 'IPLocation', 'url':'https://www.iplocation.net/', 'img': 'vt-logo.png', 'status': 'Not Started'},
         {'name': 'HaveIBeenPwned', 'url':'https://haveibeenpwned.com/', 'img': 'vt-logo.png', 'status': 'Not Started'},
-        {'name': 'DomainTools', 'url':'https://www.domaintools.com', 'img': domaintoolsLogo, 'status': 'Not Started'}
     ];
 
     

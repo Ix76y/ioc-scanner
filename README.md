@@ -1,12 +1,14 @@
 # IOC-Scanner
 
-![IOC Scanner](resources/images/homepage.png)
+![IOC Scanner](resources/images/homepage1.png)
 
 This app lets you scan an IOCs (Indicator of Compromise) on multiple different pages at once and shows you a summary of all the results. 
 
 The goal of this project is to have a native app that allows you to quickly see important informations from different pages like VirusTotla, UrlScan, DomainTools, ... and give you an overview of the results from each of the tools. 
 
 Written in Rust for speed and with a Svelte frontend this app runs on Linux, Windows, & MacOS. 
+
+> *Note: This project is being actively developed and changes are pushed frequently.*
 
 ## Support the Project
 
@@ -37,3 +39,4 @@ The goal for this app is to have the following integrations:
 - [x] EmailRep.io
 - [ ] HaveIBeenPwned
 - [ ] DomainTools
+- [ ] GreyNoise
