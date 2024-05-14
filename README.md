@@ -27,6 +27,15 @@ cargo tauri dev
 
 The app will automatically update the UI whenever you make any changes to the code, so you won't have to rerun this command after each change.
 
+## Build Release
+
+```bash
+CI=true cargo tauri build 
+# additional options: 
+# --target aarch64-apple-darwin     # build for Apple Arch
+# --debug                           # debug true
+```
+
 ## Roadmap
 
 The goal for this app is to have the following integrations:

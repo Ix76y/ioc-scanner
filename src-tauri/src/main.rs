@@ -24,10 +24,15 @@ fn main() {
     .setup(|app| {
       // create store for user data
       let mut store = StoreBuilder::new(app.handle(), "ioc-scanner.bin".parse()?).build();
+      //let store = StoreBuilder::new("ioc-scanner.bin").build(app.handle().clone());
+      let builder = Builder::default().store(store);
       //store.load();
       //store.delete("a");
       // store.insert("a".to_string(), json!("b"));
-      store.save();
+      // store.save();
+
+
+
       return Ok(())
 
     })

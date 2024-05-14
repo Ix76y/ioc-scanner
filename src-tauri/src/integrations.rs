@@ -58,7 +58,7 @@ pub fn get_integrations() -> [Integration; 8] {
         build_integration("HaveIBeenPwned".to_owned(), "/src/lib/assets/haveibeenpwned-logo.png".to_owned(), "https://haveibeenpwned.com/".to_owned(), None, None),
         build_integration("DomainTools".to_owned(), "/src/lib/assets/domaintools-logo.png".to_owned(), "https://domaintools.com/".to_owned(), None, None)
     ];
-    let configured_integrations = get_keys();
+    let configured_integrations =  get_keys(); // TODO: breaks in release, use: vec![]; to run release
     for integration in integrations.iter_mut() {
         if configured_integrations.contains(&integration.name) {
             integration.configured = true;

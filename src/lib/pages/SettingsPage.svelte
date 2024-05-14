@@ -10,7 +10,7 @@
     // update store if value changes
     const secureScanChange = async () => {
         console.log(`Secure Scan changed: ${secureScan}`);
-        store.set(secureScanKey, secureScan);
+        store.set(secureScanKey, {value: secureScan});
         await store.save();
         console.log(`Saved store.`);
     }
@@ -25,7 +25,7 @@
             await store.save();
             console.log(`Saved store.`);
         } else {
-            secureScan = tmp;
+            secureScan = tmp.value;
         }
     }
     load_data();
